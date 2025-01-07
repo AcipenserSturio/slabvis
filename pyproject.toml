@@ -1,0 +1,18 @@
+[project]
+name = "slabvis"
+version = "0.1.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "AcipenserSturio", email = "AcipenserSturio@users.noreply.github.com"},
+]
+dependencies = []
+requires-python = ">=3.13"
+readme = "README.md"
+license = {text = "GPL-3.0-or-later"}
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+[tool.pdm]
+distribution = true
