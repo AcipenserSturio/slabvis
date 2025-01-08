@@ -27,9 +27,16 @@ def get_metadata():
         if len(path.name) != 21:  # id length + ".info.json"
             print(path.name, "skipped")
             continue
+        # print(path)
         with open(path) as f:
             vid = json.load(f)
-        yield [vid[col] for col in COLS]
+        yield [vid[col] if col in vid else -1 for col in COLS]
+
+
+# def print_missing_files():
+#     ids = [vid[0] for vid in get_metadata()]
+#     dump = pd.read_csv("./assets/old_dump.csv")
+#     print(set(dump["id"]) - set(ids))
 
 
 vids = pd.DataFrame([*get_metadata()], columns=COLS)
