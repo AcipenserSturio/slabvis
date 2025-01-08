@@ -1,5 +1,6 @@
 from PIL import Image, ImageDraw, ImageFont
 import pandas as pd
+from datetime import datetime
 
 WEEK_HEIGHT = 7
 COL_WIDTH = 120
@@ -38,6 +39,22 @@ width = COL_GAP * (len(genres))
 
 im = Image.new("RGBA", (width, height), (255, 255, 255, 255))
 draw = ImageDraw.Draw(im)
+
+
+def y_from_date(date: datetime):
+    return round(
+        WEEK_HEIGHT * (date.timestamp() / (60 * 60 * 24 * 7) - df["week"].min())
+    )
+
+
+for year in range(2010, 2026):
+    for month in ["01", "04", "07", "10"]:
+        y = y_from_date(datetime.fromisoformat(f"{year}-{month}-01"))
+        draw.line(
+            (0, y, width, y),
+            fill=(0, 0, 0, 255),
+            width=3 if month == "01" else 1,
+        )
 
 for season in seasons:
     episodes = df[df["season"] == season]
