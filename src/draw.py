@@ -1,9 +1,14 @@
 from PIL import Image, ImageDraw, ImageFont
 import pandas as pd
 
-WEEK_WIDTH = 14
-LINE_HEIGHT = 30
-LINE_GAP = 7 + LINE_HEIGHT
+WEEK_HEIGHT = 7
+COL_WIDTH = 120
+COL_GAP = 20 + COL_WIDTH
+FONT_SIZE = 20
+FONT = ImageFont.truetype(
+    "/usr/share/fonts/noto/NotoSans-CondensedMedium.ttf", FONT_SIZE
+)
+
 genres = [
     "Vanilla SP",
     "Vanilla MP",
@@ -27,8 +32,8 @@ seasons = list(df["season"].unique())
 # print(df)
 # print(seasons)
 
-width = WEEK_WIDTH * (df["week"].max() - df["week"].min())
-height = LINE_GAP * (len(genres))
+height = WEEK_HEIGHT * (df["week"].max() - df["week"].min())
+width = COL_GAP * (len(genres))
 # print(width, height)
 
 im = Image.new("RGBA", (width, height), (255, 255, 255, 255))
@@ -39,20 +44,20 @@ for season in seasons:
     genre = episodes.iloc[0]["genre"]
     draw.rectangle(
         (
-            WEEK_WIDTH * (episodes["week"].min() - df["week"].min()),
-            genres.index(genre) * LINE_GAP,
-            WEEK_WIDTH * (episodes["week"].max() - df["week"].min()),
-            genres.index(genre) * LINE_GAP + LINE_HEIGHT,
+            genres.index(genre) * COL_GAP,
+            WEEK_HEIGHT * (episodes["week"].min() - df["week"].min()),
+            genres.index(genre) * COL_GAP + COL_WIDTH,
+            WEEK_HEIGHT * (episodes["week"].max() - df["week"].min()),
         ),
         fill=(0, 192, 192),
     )
     for index, episode in episodes.iterrows():
         draw.rectangle(
             (
-                WEEK_WIDTH * (episode["week"] - df["week"].min()),
-                genres.index(genre) * LINE_GAP,
-                WEEK_WIDTH * (episode["week"] - df["week"].min() + 1) - 1,
-                genres.index(genre) * LINE_GAP + LINE_HEIGHT,
+                genres.index(genre) * COL_GAP,
+                WEEK_HEIGHT * (episode["week"] - df["week"].min()),
+                genres.index(genre) * COL_GAP + COL_WIDTH,
+                WEEK_HEIGHT * (episode["week"] - df["week"].min() + 1) - 1,
             ),
             fill=(0, 128, 128),
         )
@@ -62,15 +67,15 @@ for season in seasons:
     genre = beginning["genre"]
     draw.text(
         (
-            WEEK_WIDTH * (beginning["week"] - df["week"].min()),
-            genres.index(genre) * LINE_GAP + LINE_HEIGHT // 2,
+            genres.index(genre) * COL_GAP + COL_WIDTH // 2,
+            WEEK_HEIGHT * (beginning["week"] - df["week"].min()),
         ),
         season,
         fill=(255, 255, 255, 255),
-        anchor="lm",
-        font_size=20,
-        stroke_width=2,
-        stroke_fill=(0, 0, 0, 128),
+        anchor="mt",
+        font=FONT,
+        stroke_width=4,
+        stroke_fill=(0, 0, 0, 255),
     )
 
 im.save("plot.png")
