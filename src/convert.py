@@ -3,8 +3,8 @@ from pathlib import Path
 import json
 from datetime import datetime
 
-DIR = Path("assets/ethoslab/")
-OUT = Path("assets/ethoslab.csv")
+DIR = Path("assets/xisumavoid/")
+OUT = Path("assets/xisumavoid.csv")
 
 COLS = [
     "id",
@@ -35,9 +35,11 @@ def get_metadata():
 
 # def print_missing_files():
 #     ids = [vid[0] for vid in get_metadata()]
-#     dump = pd.read_csv("./assets/old_dump.csv")
+#     dump = pd.read_csv("./assets/xisuma.txt")
 #     print(set(dump["id"]) - set(ids))
 
+
+# print_missing_files()
 
 vids = pd.DataFrame([*get_metadata()], columns=COLS)
 vids["week"] = vids["timestamp"].apply(
