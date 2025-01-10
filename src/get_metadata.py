@@ -26,7 +26,7 @@ COLS = [
 ]
 
 
-def get_metadata(queue, sheet, out):
+def get_metadata(queue, sheet):
     with open(queue) as f:
         ids = f.read().strip().split("\n")
 
@@ -61,8 +61,7 @@ def get_metadata(queue, sheet, out):
     pd.read_csv(sheet).sort_values("timestamp").to_csv(sheet, index=False)
 
 
-queue = "assets/xisuma.txt"
-sheet = "assets/xisumavoid.csv"
-out = "assets/xisuma"
+queue = "assets/queue.txt"
+sheet = "assets/metadata.csv"
 
-get_metadata(queue, sheet, out)
+get_metadata(queue, sheet)
