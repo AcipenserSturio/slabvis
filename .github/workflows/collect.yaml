@@ -28,8 +28,7 @@ jobs:
         env:
           COOKIES: ${{secrets.COOKIES}}
         shell: bash
-        run: |
-          echo "$COOKIES" >> cookies.txt
+        run: echo "$COOKIES" >> cookies.txt
 
       - name: "Run slabvis"
         run: pdm run get_metadata
