@@ -7,7 +7,7 @@ import csv
 # roughly equivalent to:
 # yt-dlp --skip-download --write-info-json --output "${out}/%(id)s.%(ext)s" -a ${queue}
 
-LIMIT = 10
+LIMIT = 100
 COLS = [
     "id",
     "title",
