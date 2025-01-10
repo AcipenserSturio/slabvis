@@ -39,7 +39,7 @@ def get_metadata(queue, sheet, out):
     ids = [id_ for id_ in ids if id_ not in cached]
 
     # Run yt-dlp
-    with yt_dlp.YoutubeDL() as ydl:
+    with yt_dlp.YoutubeDL({"cookies": "cookies.txt"}) as ydl:
         for id_ in ids[:LIMIT]:
             result = ydl.extract_info(id_, download=False)
             row = [result[col] if col in result else None for col in COLS]
