@@ -19,6 +19,7 @@ build-backend = "pdm.backend"
 
 [tool.pdm.scripts]
 get_playlist = "pdm run python ./src/get_playlist.py"
+get_playlist_v2 = "pdm run python ./src/get_playlist_v2.py"
 get_metadata = "pdm run python ./src/get_metadata.py"
 convert = "pdm run python ./src/convert.py"
 draw = "pdm run python ./src/draw.py"

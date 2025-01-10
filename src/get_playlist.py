@@ -8,9 +8,6 @@ def get_playlist(url, dest):
     # rm ${dest}
     # yt-dlp --flat-playlist -i --print-to-file id ${dest} ${url}
 
-    with open(dest, "w") as f:
-        f.write("")
-
     ydl_opts = {
         "print_to_file": {"video": [("%(id)s", dest)]},
         "extract_flat": True,
@@ -23,8 +20,14 @@ def get_playlist(url, dest):
 # URL = "https://www.youtube.com/playlist?list=PL96C35uN7xGLDEnHuhD7CTZES3KXFnwm0"
 # DEST = "assets/tomscott.txt"
 
-
-URL = "https://www.youtube.com/@xisumavoid"
+CHANNELS = "assets/channels.txt"
 DEST = "assets/xisuma.txt"
 
-get_playlist(URL, DEST)
+with open(DEST, "w") as f:
+    f.write("")
+
+with open(CHANNELS) as f:
+    urls = f.read().strip().split("\n")
+
+for url in urls:
+    get_playlist(url, DEST)

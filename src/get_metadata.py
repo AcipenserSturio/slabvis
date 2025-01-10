@@ -43,7 +43,7 @@ def get_metadata(queue, sheet, out):
     with yt_dlp.YoutubeDL({"cookiefile": "cookies.txt"}) as ydl:
         for id_ in ids[:LIMIT]:
             result = ydl.extract_info(id_, download=False)
-            print(result)
+            # print(result)
             row = [result[col] if col in result else None for col in COLS]
             row[COLS.index("week")] = row[COLS.index("timestamp")] // 604800
             with open(sheet, "a") as f:
