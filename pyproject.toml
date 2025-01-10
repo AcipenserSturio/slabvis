@@ -5,7 +5,7 @@ description = "Default template for PDM package"
 authors = [
     { name = "AcipenserSturio", email = "AcipenserSturio@users.noreply.github.com" },
 ]
-dependencies = ["pandas>=2.2.3", "Pillow>=11.1.0"]
+dependencies = ["pandas>=2.2.3", "Pillow>=11.1.0", "yt-dlp>=2024.12.23"]
 requires-python = ">=3.13"
 readme = "README.md"
 license = { text = "GPL-3.0-or-later" }
@@ -18,5 +18,7 @@ build-backend = "pdm.backend"
 # distribution = true
 
 [tool.pdm.scripts]
+get_playlist = "pdm run python ./src/get_playlist.py"
+get_metadata = "pdm run python ./src/get_metadata.py"
 convert = "pdm run python ./src/convert.py"
 draw = "pdm run python ./src/draw.py"

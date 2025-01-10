@@ -5,7 +5,7 @@
 groups = ["default"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:96732c715009c95217403c44f5bb74b94e1de115f4858334354d834ccf03056d"
+content_hash = "sha256:6c44b42d198aa844c0585302334e0c8616587e284b294f3ebf2a66c06a4dda08"
 
 [[metadata.targets]]
 requires_python = ">=3.13"
@@ -145,4 +145,15 @@ groups = ["default"]
 files = [
     {file = "tzdata-2024.2-py2.py3-none-any.whl", hash = "sha256:a48093786cdcde33cad18c2555e8532f34422074448fbc874186f0abd79565cd"},
     {file = "tzdata-2024.2.tar.gz", hash = "sha256:7d85cc416e9382e69095b7bdf4afd9e3880418a2413feec7069d533d6b4e31cc"},
+]
+
+[[package]]
+name = "yt-dlp"
+version = "2024.12.23"
+requires_python = ">=3.9"
+summary = "A feature-rich command-line audio/video downloader"
+groups = ["default"]
+files = [
+    {file = "yt_dlp-2024.12.23-py3-none-any.whl", hash = "sha256:2fc08a5221a0379628ac4e7324c6c69a95b9fdfa7a7ca3187444b3b7451e38be"},
+    {file = "yt_dlp-2024.12.23.tar.gz", hash = "sha256:ac0e72b5a9017ba104b4258546201a7cedc38e8bd20727e0c63b77c829b425e9"},
 ]
