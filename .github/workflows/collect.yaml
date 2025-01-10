@@ -9,6 +9,7 @@ on:
   schedule:
     # Every thirty minutes. Is Github chill with this? we'll see.
     - cron: "*/30 * * * *"
+  workflow_dispatch:
 
 jobs:
   collect:
