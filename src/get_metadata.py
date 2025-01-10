@@ -11,6 +11,7 @@ LIMIT = 100
 COLS = [
     "id",
     "title",
+    "uploader_id",
     "duration_string",
     "resolution",
     "view_count",
@@ -42,15 +43,16 @@ def get_metadata(queue, sheet, out):
     with yt_dlp.YoutubeDL({"cookiefile": "cookies.txt"}) as ydl:
         for id_ in ids[:LIMIT]:
             result = ydl.extract_info(id_, download=False)
+            print(result)
             row = [result[col] if col in result else None for col in COLS]
             row[COLS.index("week")] = row[COLS.index("timestamp")] // 604800
             with open(sheet, "a") as f:
                 csv.writer(f).writerow(row)
 
-    pd.read_csv(sheet).sort_values("timestamp").to_csv(sheet, index=False)
+            # with open(f"assets/{id_}.info.json", "w") as f:
+            #     json.dump(result, f, indent="  ")
 
-    # with open(f"{out}/{id_}.info.json", "w") as f:
-    #     json.dump(result, f, indent="  ")
+    pd.read_csv(sheet).sort_values("timestamp").to_csv(sheet, index=False)
 
 
 queue = "assets/xisuma.txt"
