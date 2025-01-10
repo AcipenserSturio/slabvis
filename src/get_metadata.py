@@ -42,7 +42,13 @@ def get_metadata(queue, sheet, out):
     # Run yt-dlp
     with yt_dlp.YoutubeDL({"cookiefile": "cookies.txt"}) as ydl:
         for id_ in ids[:LIMIT]:
-            result = ydl.extract_info(id_, download=False)
+            try:
+                result = ydl.extract_info(id_, download=False)
+            except yt_dlp.DownloadError:
+                # if any video goes unavailable before the downloader
+                # gets it, it will keep being attempted every run.
+                # redo better? move to the end of the queue?
+                continue
             # print(result)
             row = [result[col] if col in result else None for col in COLS]
             row[COLS.index("week")] = row[COLS.index("timestamp")] // 604800
