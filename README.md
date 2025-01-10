@@ -1,6 +1,6 @@
 # slabvis
 
-A data visualiser for the upload history of EthosLab (Etho).
+A WIP data visualiser for youtube upload history.
 
 ## Requirements
 
@@ -16,8 +16,9 @@ A data visualiser for the upload history of EthosLab (Etho).
 git clone https://github.com/AcipenserSturio/slabvis
 cd slabvis
 pdm install
-yt-dlp --skip-download --write-info-json --output "./assets/ethoslab/%(id)s.%(ext)s" "https://www.youtube.com/@EthosLab"
-pdm run python -m slabvis
+pdm run get_playlist
+pdm run get_metadata
+pdm run draw
 ```
 
 # License
