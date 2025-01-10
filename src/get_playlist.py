@@ -1,33 +1,48 @@
-import yt_dlp
-import json
-from pathlib import Path
+import os
+from yt_dlp import YoutubeDL
 
 
-def get_playlist(url, dest):
-    # equivalent to:
-    # rm ${dest}
-    # yt-dlp --flat-playlist -i --print-to-file id ${dest} ${url}
+# Progress hook to process each playlist entry
+class StopFetching(Exception):
+    pass
+
+
+def filter_break_on_existing_id(info, *, incomplete):
+    if info.get("id") in existing_ids:
+        raise StopFetching
+
+
+# Main function
+def get_playlist(url):
+    with YoutubeDL({"playlist_items": "0"}) as ydl_channel:
+        info = ydl_channel.extract_info(url, download=False)
+
+    # yes, the channel id and the playlist id differ
+    # in the first two characters. :shrug:
+    url = f"https://www.youtube.com/playlist?list=UU{info["channel_id"][2:]}"
 
     ydl_opts = {
-        "print_to_file": {"video": [("%(id)s", dest)]},
         "extract_flat": True,
+        "lazy_playlist": True,
+        "print_to_file": {"video": [("%(id)s", DEST)]},
+        "match_filter": filter_break_on_existing_id,
     }
 
-    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-        ydl.extract_info(url)
+    try:
+        with YoutubeDL(ydl_opts) as ydl:
+            ydl.extract_info(url, download=False)
+    except StopFetching:
+        print("Stopped fetching: Existing ID encountered.")
 
-
-# URL = "https://www.youtube.com/playlist?list=PL96C35uN7xGLDEnHuhD7CTZES3KXFnwm0"
-# DEST = "assets/tomscott.txt"
 
 CHANNELS = "assets/channels.txt"
-DEST = "assets/xisuma.txt"
+DEST = "assets/queue.txt"
 
-with open(DEST, "w") as f:
-    f.write("")
+with open(DEST) as f:
+    existing_ids = set(f.read().strip().split("\n"))
 
 with open(CHANNELS) as f:
     urls = f.read().strip().split("\n")
 
 for url in urls:
-    get_playlist(url, DEST)
+    get_playlist(url)

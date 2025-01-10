@@ -1,0 +1,50 @@
+name: "Aggregate Links"
+
+# on:
+#   push:
+#     branches:
+#       - "main"
+
+on:
+  schedule:
+    # Every day
+    - cron: "10 0 * * *"
+
+jobs:
+  collect:
+    name: "Aggregate Links"
+    runs-on: "ubuntu-latest"
+
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          # So with this, its possible to run an infinite-ish
+          # loop workflows, terminating when all is downloaded.
+          # This feels like something thatd get me in trouble
+          # so im using a schedule instead.
+          # token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+
+      - name: Setup PDM
+        uses: pdm-project/setup-pdm@v4
+
+      - name: "Install dependencies"
+        run: pdm install
+
+      - name: print secrets
+        env:
+          COOKIES: ${{secrets.COOKIES}}
+        shell: bash
+        run: echo "$COOKIES" >> cookies.txt
+
+      - name: "Run slabvis"
+        run: pdm run get_playlist
+
+      - name: Push version changes to main branch
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "downloaded metadata"
+          branch: ${{ github.event.repository.default_branch }}
